@@ -5,22 +5,6 @@
  */
 package io.debezium.relational.ddl;
 
-import java.math.BigDecimal;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.debezium.annotation.NotThreadSafe;
 import io.debezium.relational.Column;
 import io.debezium.relational.ColumnEditor;
@@ -39,6 +23,21 @@ import io.debezium.text.ParsingException;
 import io.debezium.text.Position;
 import io.debezium.text.TokenStream;
 import io.debezium.text.TokenStream.Marker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A parser for DDL statements.
@@ -747,7 +746,7 @@ public class DdlParser {
     protected Object parseNumericLiteral(Marker start, boolean signed) {
         StringBuilder sb = new StringBuilder();
         boolean decimal = false;
-        if (signed && tokens.matches("+", "-")) {
+        if (signed && tokens.matchesAnyOf("+", "-")) {
             sb.append(tokens.consumeAnyOf("+", "-"));
         }
         if (!tokens.canConsume('.')) {
